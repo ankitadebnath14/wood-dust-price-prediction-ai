@@ -10,18 +10,29 @@ st.set_page_config(
     layout="wide"
 )
 
+# =========================
+# BASE DIRECTORY
+# =========================
+
+import os
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # =========================
 # LOAD MODEL
 # =========================
 
-model = joblib.load("models/model.pkl")
+model_path = os.path.join(BASE_DIR, "models", "model.pkl")
+
+model = joblib.load(model_path)
 
 # =========================
 # LOAD DATASET
 # =========================
 
-df = pd.read_csv("data/wood_dust_data.csv")
+data_path = os.path.join(BASE_DIR, "data", "wood_dust_data.csv")
+
+df = pd.read_csv(data_path)
 
 # Clean column names
 df.columns = df.columns.str.strip()
