@@ -22,9 +22,20 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # LOAD MODEL
 # =========================
 
+# =========================
+# LOAD MODEL
+# =========================
+
 model_path = os.path.join(BASE_DIR, "models", "model.pkl")
 
-model = joblib.load(model_path)
+try:
+    model = joblib.load(model_path)
+except Exception as e:
+    st.error(f"Model loading failed: {e}")
+
+# =========================
+# LOAD DATASET
+# =========================
 
 # =========================
 # LOAD DATASET
@@ -32,7 +43,10 @@ model = joblib.load(model_path)
 
 data_path = os.path.join(BASE_DIR, "data", "wood_dust_data.csv")
 
-df = pd.read_csv(data_path)
+try:
+    df = pd.read_csv(data_path)
+except Exception as e:
+    st.error(f"Dataset loading failed: {e}")
 
 # Clean column names
 df.columns = df.columns.str.strip()
@@ -135,15 +149,12 @@ if st.button("Predict Price"):
     })
 
     # Prediction
+# Prediction
     prediction = model.predict(input_data)
+
     st.metric(
-    label="Predicted Wood Dust Price",
-    value=f"₹{prediction[0]:,.2f}"
-    )
-    # Display result
-    st.metric(
-    label="Predicted Wood Dust Price",
-    value=f"₹{prediction[0]:,.2f}"
+        label="Predicted Wood Dust Price",
+        value=f"₹{prediction[0]:,.2f}"
     )
 
 #business insight logic
